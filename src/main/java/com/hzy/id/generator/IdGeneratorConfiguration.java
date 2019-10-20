@@ -10,15 +10,15 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 public class IdGeneratorConfiguration {
 
 	@Bean(name = "redisTemplate")
-    public StringRedisTemplate redisCacheTemplate(LettuceConnectionFactory redisConnectionFactory) {
+	public StringRedisTemplate redisCacheTemplate(LettuceConnectionFactory redisConnectionFactory) {
 		StringRedisTemplate redisTemplate = new StringRedisTemplate(redisConnectionFactory);
 		return redisTemplate;
-    }
+	}
 
 	@Bean("springContextHolder")
-	public SpringContextHolder setApplicationContext(ApplicationContext applicationContext){
+	public SpringContextHolder setApplicationContext(ApplicationContext applicationContext) {
 		SpringContextHolder holder = new SpringContextHolder(applicationContext);
 		return holder;
 	}
-	
+
 }

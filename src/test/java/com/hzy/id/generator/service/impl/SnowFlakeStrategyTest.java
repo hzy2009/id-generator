@@ -1,7 +1,7 @@
 package com.hzy.id.generator.service.impl;
 
 import java.util.Iterator;
-import java.util.Set;
+import java.util.Queue;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -20,7 +20,7 @@ public class SnowFlakeStrategyTest {
 		int quantity = 100000;
 		SnowFlakeStrategy strategy = new SnowFlakeStrategy();
 		long t1 = System.currentTimeMillis();
-		Set<String> ids = strategy.makeIds(quantity);
+		Queue<String> ids = strategy.makeIds(quantity);
 		long cost = System.currentTimeMillis() - t1;
 		System.out.print(String.format("生成 [%s] 个Id，耗时 [%s]ms", quantity, cost));
 		

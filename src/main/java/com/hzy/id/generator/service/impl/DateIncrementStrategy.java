@@ -2,7 +2,8 @@ package com.hzy.id.generator.service.impl;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.LinkedHashSet;
+import java.util.Queue;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.stream.Collectors;
 
 /**
@@ -19,16 +20,16 @@ public class DateIncrementStrategy extends AutoIncrementStrategy {
 	}
 
 	@Override
-	public LinkedHashSet<String> makeIds(int quantity) {
+	public Queue<String> makeIds(int quantity) {
 		String dateStr = dateFormat.format(new Date());
-		LinkedHashSet<String> ids = super.makeIds(quantity);
+		Queue<String> ids = super.makeIds(quantity);
 		if (ids == null || ids.size() != quantity) {
 			throw new RuntimeException(String.format("获取编码失败，单据类型:%s", this.getIdType()));
 		}
 		
 		return ids.stream().map(id->{
 			return String.format("%s%s", dateStr, id);
-		}).collect(Collectors.toCollection(LinkedHashSet::new));
+		}).collect(Collectors.toCollection(LinkedBlockingQueue::new));
 	}
 
 }

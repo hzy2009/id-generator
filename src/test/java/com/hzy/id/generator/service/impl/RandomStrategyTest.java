@@ -1,6 +1,6 @@
 package com.hzy.id.generator.service.impl;
 
-import java.util.Set;
+import java.util.Queue;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -23,7 +23,7 @@ public class RandomStrategyTest {
 		int quantity = 100000;
 		RandomStrategy strategy = new RandomStrategy();
 		long t1 = System.currentTimeMillis();
-		Set<String> ids = strategy.makeIds(quantity);
+		Queue<String> ids = strategy.makeIds(quantity);
 		long cost = System.currentTimeMillis() - t1;
 		LOG.info(String.format("生成 [%s] 个Id，耗时 [%s]ms", quantity, cost));
 		Assert.assertEquals("id数量不对", ids.size(), quantity);

@@ -42,10 +42,10 @@ public class IdGeneratorFactory {
         switch (idType) {
         case "AUTOINCREMENT": 
             // 如果是采购单
-            return new AutoIncrementStrategy("PO");
+            return new AutoIncrementStrategy(idType);
         case "DATEINCREMENT":
             // 如果是送货单
-            return new DateIncrementStrategy("DO");
+            return new DateIncrementStrategy(idType);
         case "RANDOM":
             // 如果是对账单
             return new RandomStrategy();

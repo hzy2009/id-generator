@@ -5,8 +5,9 @@ import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.Enumeration;
-import java.util.LinkedHashSet;
+import java.util.Queue;
 import java.util.Random;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,8 +58,8 @@ public class SnowFlakeStrategy implements IdStrategy {
     private final long dataCenterId;
     
     @Override
-    public LinkedHashSet<String> makeIds(int quantity) {
-        LinkedHashSet<String> ids = new LinkedHashSet<>(quantity);
+    public Queue<String> makeIds(int quantity) {
+        Queue<String> ids = new LinkedBlockingQueue<>(quantity);
         while (ids.size() < quantity ) {
             ids.add(String.valueOf(nextId()));
         }

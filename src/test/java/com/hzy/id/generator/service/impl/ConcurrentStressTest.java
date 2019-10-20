@@ -33,14 +33,15 @@ public class ConcurrentStressTest {
 	public void makeIdsTest() throws InterruptedException, ExecutionException {
 //		this.makeIdsStressTest("RONDAM");
 //		this.makeIdsStressTest("SNOWFLAKE");
-//		this.makeIdsStressTest("AUTOINCREMENT");
-		this.makeIdsStressTest("DATEINCREMENT");
+		this.makeIdsStressTest("AUTOINCREMENT");
+//		this.makeIdsStressTest("DATEINCREMENT");
 	}
 
 	public void makeIdsStressTest(final String idType) throws InterruptedException, ExecutionException {
 		List<Future<TestResult>> resultSet = new ArrayList<>();
 
 		int maxRequest = 50 * 100 * 100; // 50w个请求， 100个并发。
+//		int maxRequest = 100 * 100 * 100; // 50w个请求， 100个并发。
 		ExecutorService executorService = Executors.newFixedThreadPool(100);
 		int i = 0;
 		long now = System.currentTimeMillis();
@@ -59,7 +60,9 @@ public class ConcurrentStressTest {
 
 		executorService.shutdown();
 		boolean isAllFinish = executorService.awaitTermination(120, TimeUnit.SECONDS);
-		LOG.info("所有请求已经完成[{}]，完成时间是：{}", isAllFinish, System.currentTimeMillis() - now);
+		double total = Double.valueOf(System.currentTimeMillis() - now) / 1000;
+		double qps = Double.valueOf(maxRequest) / total ;
+		LOG.info("所有请求已经完成[{}]，完成时间是：{}, qps是:{}", isAllFinish, total, qps);
 
 		List<TestResult> set = resultSet.stream().map(o -> {
 			try {
@@ -81,7 +84,7 @@ public class ConcurrentStressTest {
 		Long avg = set.stream().map(TestResult::getCost).collect(Collectors.averagingLong(o -> {
 			return o;
 		})).longValue();
-		LOG.info("所有请求[{}]中, 不重复的有:{}，最小的时间是：{}，最大的时间是:{}，平均时长:{}", set.size(), all, first, last, avg);
+		LOG.info("所有请求[{}]中,不重复的有:{}，最小的时间是：{}，最大的时间是:{}，平均时长:{}", set.size(), all, first/1000000, last/1000000, avg/1000);
 	}
 
 }

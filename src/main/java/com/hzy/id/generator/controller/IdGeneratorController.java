@@ -1,7 +1,6 @@
 package com.hzy.id.generator.controller;
 
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.Queue;
 
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,16 +17,16 @@ public class IdGeneratorController implements IdGeneratorService {
 	@RequestMapping("makeId")
 	@Override
 	public String makeId(String idType) {
-		Set<String> ids = this.makeIds(idType, 1);
+		Queue<String> ids = this.makeIds(idType, 1);
 		if (CollectionUtils.isEmpty(ids)) {
 			return null;
 		}
-		return ids.iterator().next();
+		return ids.poll();
 	}
 
 	@RequestMapping("makeIds")
 	@Override
-	public LinkedHashSet<String> makeIds(String idType, int quantity) {
+	public Queue<String> makeIds(String idType, int quantity) {
 		IdStrategy idStrategy = IdGeneratorFactory.bulid(idType);
 		return idStrategy.makeIds(quantity);
 	}

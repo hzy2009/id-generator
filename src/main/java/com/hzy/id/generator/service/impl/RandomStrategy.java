@@ -3,9 +3,10 @@ package com.hzy.id.generator.service.impl;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Queue;
 import java.util.Random;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import com.hzy.id.generator.service.IdStrategy;
 
@@ -35,9 +36,9 @@ public class RandomStrategy implements IdStrategy {
     }
     
     @Override
-    public LinkedHashSet<String> makeIds(int quantity) {
+    public Queue<String> makeIds(int quantity) {
         String dateStr = dateFormat.format(new Date());
-        LinkedHashSet<String> idList = new LinkedHashSet<>(quantity);
+        Queue<String> idList = new LinkedBlockingQueue<>(quantity);
         
         while (idList.size() < quantity) {
             StringBuffer uuid = new StringBuffer();
